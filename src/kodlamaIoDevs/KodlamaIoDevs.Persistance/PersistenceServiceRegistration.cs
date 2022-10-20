@@ -1,4 +1,4 @@
-﻿using KodlamaIoDevs.Application.Services.Repositorties;
+﻿using KodlamaIoDevs.Application.Services.Repositories;
 using KodlamaIoDevs.Persistance.Contexts;
 using KodlamaIoDevs.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +17,14 @@ namespace KodlamaIoDevs.Persistance
                 options.EnableSensitiveDataLogging();
             });
 
-            services.AddScoped<IProgrammingLanguageRepository, ProgrammingLanguagesRepository>();
+            services.AddScoped<IProgrammingLanguageRepository, ProgrammingLanguageRepository>();
             services.AddScoped<ITechnologyRepository, TechnologyRepository>();
-            services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
             services.AddScoped<ISocialMediaRepository, SocialMediaRepository>();
-            //services.AddScoped<IUserAppRepository, UserAppRepository>();
-            services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserOperationClaimRepository, UserOperationClaimRepository>();
+            services.AddScoped<IOperationClaimRepository, OperationClaimRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
 
             return services;
         }

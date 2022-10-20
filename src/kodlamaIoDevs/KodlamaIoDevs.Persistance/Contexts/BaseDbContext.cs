@@ -9,11 +9,18 @@ namespace KodlamaIoDevs.Persistance.Contexts
     {
         protected IConfiguration Configuration { get; set; }
 
+        public DbSet<User> Users { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
+        public DbSet<Technology> Technologies { get; set; }
+        public DbSet<SocialMedia> SocialMedias { get; set; }
+
         public BaseDbContext(IConfiguration configuration, DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
             Configuration = configuration;
         }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -120,15 +127,28 @@ namespace KodlamaIoDevs.Persistance.Contexts
 
             #endregion
 
-        }
+            #region RefreshToken
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<OperationClaim> OperationClaims { get; set; }
-        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
-        public DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
-        public DbSet<Technology> Technologies { get; set; }
-        public DbSet<SocialMedia> SocialMedias { get; set; }
-        
+            modelBuilder.Entity<RefreshToken>(r =>
+            {
+                r.ToTable("RefreshTokens").HasKey(k => k.Id);
+                r.Property(p => p.Id).HasColumnName("Id");
+                r.Property(p => p.UserId).HasColumnName("UserId");
+                r.Property(p => p.Token).HasColumnName("Token");
+                r.Property(p => p.Expires).HasColumnName("Expires");
+                r.Property(p => p.Created).HasColumnName("Created");
+                r.Property(p => p.CreatedByIp).HasColumnName("CreatedByIp");
+                r.Property(p => p.Revoked).HasColumnName("Revoked");
+                r.Property(p => p.RevokedByIp).HasColumnName("RevokedByIp");
+                r.Property(p => p.ReplacedByToken).HasColumnName("ReplacedByToken");
+                r.Property(p => p.ReasonRevoked).HasColumnName("ReasonRevoked");
+
+                r.HasOne(p => p.User);
+            });
+
+            #endregion
+
+        }
 
     }
 }

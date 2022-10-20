@@ -5,6 +5,7 @@ namespace KodlamaIoDevs.Domain.Entities
     public class Technology: Entity
     {
         public string Name { get; set; }
+        public string ImageUrl { get; set; }
         public int ProgrammingLanguageId { get; set; }
         public virtual ProgrammingLanguage ProgrammingLanguage { get; set; }
 

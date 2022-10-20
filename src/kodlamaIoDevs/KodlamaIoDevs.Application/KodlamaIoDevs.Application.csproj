@@ -20,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\UserApp\Queries\" />
+    <Folder Include="Features\Auths\Models\" />
+    <Folder Include="Features\Auths\Queries\" />
+    <Folder Include="Features\Auths\Profiles\" />
   </ItemGroup>
 
 </Project>

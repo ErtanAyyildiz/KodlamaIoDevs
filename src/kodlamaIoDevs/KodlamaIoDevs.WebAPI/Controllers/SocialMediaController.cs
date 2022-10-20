@@ -1,7 +1,7 @@
 ﻿using Core.Application.Requests;
-using KodlamaIoDevs.Application.Features.SocialMedia.Commands.CreateSocialMedia;
-using KodlamaIoDevs.Application.Features.SocialMedia.Commands.DeleteSocialMedia;
-using KodlamaIoDevs.Application.Features.SocialMedia.Commands.UpdateSocialMedia;
+using KodlamaIoDevs.Application.Features.SocialMedia.Command.CreateSocialMedia;
+using KodlamaIoDevs.Application.Features.SocialMedia.Command.DeleteSocialMedia;
+using KodlamaIoDevs.Application.Features.SocialMedia.Command.UpdateSocialMedia;
 using KodlamaIoDevs.Application.Features.SocialMedia.Queries.GetListSocialMedia;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +20,11 @@ namespace KodlamaIoDevs.WebAPI.Controllers
             return Created("", result);
         }
 
-        [HttpGet(nameof(GetList))]
-        public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
+        [HttpDelete("Delete/{Id}")]
+        public async Task<IActionResult> Delete([FromRoute] DeleteSocialMediaCommand deleteSocialMediaCommand)
         {
-            var getSocialMediaQuery = new GetListSocialMediaQuery() { PageRequest = pageRequest };
-            var result = await Mediator!.Send(getSocialMediaQuery);
-            return Ok(result);
+            var result = await Mediator!.Send(deleteSocialMediaCommand);
+            return NoContent();
         }
 
         [HttpPut(nameof(Update))]
@@ -36,14 +35,12 @@ namespace KodlamaIoDevs.WebAPI.Controllers
             return Ok(result);
         }
 
-
-        /// Todo: Silme tam olarak çalısmıyor. Düzeltilecek.
-        [HttpDelete("Delete/{Id}")]
-        public async Task<IActionResult> Delete([FromRoute] DeleteSocialMediaCommand deleteSocialMediaCommand)
+        [HttpGet(nameof(GetList))]
+        public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
         {
-            var result = await Mediator!.Send(deleteSocialMediaCommand);
-            return NoContent();
+            var getSocialMediaQuery = new GetListSocialMediaQuery() { PageRequest = pageRequest };
+            var result = await Mediator!.Send(getSocialMediaQuery);
+            return Ok(result);
         }
-
     }
 }

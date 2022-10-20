@@ -2,31 +2,30 @@
 using KodlamaIoDevs.Application.Features.Technology.Commands.CreateTechnology;
 using KodlamaIoDevs.Application.Features.Technology.Commands.DeleteTechnology;
 using KodlamaIoDevs.Application.Features.Technology.Commands.UpdateTechnology;
-using KodlamaIoDevs.Application.Features.Technology.Queries.GetListTecnology;
+using KodlamaIoDevs.Application.Features.Technology.Queries.GetListTechnologyQuery;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KodlamaIoDevs.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TechnologiesController: BaseController
+    public class TechnologiesController : BaseController
     {
-        [HttpGet(nameof(GetList))]
-        public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
-        {
-            var getTechnologyListQuery = new GetListTechnologyQuery() { PageRequest = pageRequest };
-            var result = await Mediator!.Send(getTechnologyListQuery);
-            return Ok(result);
-        }
-
         [HttpPost(nameof(Add))]
-        public async Task<IActionResult> Add([FromBody] CreateTechnologyCommand createTechnologyCommand)
+        public async Task<IActionResult> Add([FromBody]CreateTechnologyCommand createTechnologyCommand)
         {
-            var result = await Mediator!.Send(createTechnologyCommand);
+            var result =await Mediator!.Send(createTechnologyCommand);
             return Created("", result);
         }
 
-        // Todo: update is not working !!
+        [HttpDelete("Delete{Id}")]
+        public async Task<IActionResult> Delete([FromRoute]DeleteTechnologyCommand deleteTechnologyCommand)
+        {
+            var result=await Mediator!.Send(deleteTechnologyCommand);
+            return NoContent();
+        }
+
         [HttpPut(nameof(Update))]
         public async Task<IActionResult> Update([FromBody] UpdateTechnologyCommand updateTechnologyCommand)
         {
@@ -34,11 +33,12 @@ namespace KodlamaIoDevs.WebAPI.Controllers
             return NoContent();
         }
 
-        [HttpDelete("Delete/{Id}")]
-        public async Task<IActionResult> Delete([FromRoute] DeleteTechnologyCommand deleteTechnologyCommand)
+        [HttpGet(nameof(GetList))]
+        public async Task<IActionResult> GetList([FromQuery] PageRequest pageRequest)
         {
-            var result = await Mediator!.Send(deleteTechnologyCommand);
-            return NoContent();
+            var getTechnologyListQuery = new GetListTechnologyQuery() { PageRequest = pageRequest };
+            var result = await Mediator!.Send(getTechnologyListQuery);
+            return Ok(result);
         }
     }
 }
