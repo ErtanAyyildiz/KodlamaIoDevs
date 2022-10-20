@@ -12,6 +12,7 @@ namespace KodlamaIoDevs.Persistance.Repositories
 {
     public class OperationClaimRepository : EfRepositoryBase<OperationClaim, BaseDbContext>, IOperationClaimRepository
     {
+        //deneme
         public OperationClaimRepository(BaseDbContext context) : base(context)
         {
         }
